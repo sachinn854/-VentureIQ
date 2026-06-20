@@ -16,7 +16,7 @@
 
 **Live App:** [https://ventureiq.onrender.com](https://ventureiq.onrender.com)
 
-> ⚠️ First load may take ~30 seconds (free tier cold start). After that, it's fast.
+### Video Demo
 
 https://github.com/user-attachments/assets/2e213096-9801-4e74-b79e-dcb7db251e28
 
