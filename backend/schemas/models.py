@@ -126,14 +126,20 @@ class RiskOutput(BaseModel):
 
 
 class FinalReport(BaseModel):
-    verdict: str = Field(pattern="^(GO|NO-GO)$")
-    confidence: int = Field(ge=0, le=100)
+    verdict: str
+    confidence: int = 50
     overall_score: float = 5.0
     score_breakdown: dict[str, float] = Field(default_factory=dict)
     executive_summary: str
-    top_3_strengths: list[str] = Field(min_length=1)
-    top_3_risks: list[str] = Field(min_length=1)
-    recommended_next_steps: list[str] = Field(min_length=1)
+    top_3_strengths: list[str] = Field(default_factory=list)
+    top_3_risks: list[str] = Field(default_factory=list)
+    recommended_next_steps: list[str] = Field(default_factory=list)
+
+    @field_validator('verdict', mode='before')
+    @classmethod
+    def normalise_verdict(cls, v):
+        v = str(v).strip().upper()
+        return 'NO-GO' if 'NO' in v else 'GO'
 
     @field_validator('overall_score', mode='before')
     @classmethod
