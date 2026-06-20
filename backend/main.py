@@ -1,11 +1,13 @@
 import asyncio
 import uuid
 import logging
+from pathlib import Path
 from uuid import UUID
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
+from fastapi.staticfiles import StaticFiles
 from slowapi.errors import RateLimitExceeded
 
 from backend.config import settings
@@ -248,3 +250,9 @@ async def chat(request: Request, run_id: str, body: ChatRequest):
 @app.get('/health')
 async def health():
     return {'status': 'ok', 'model': settings.model_name}
+
+
+# ── Serve built React frontend (production / Docker) ──────────────────────────
+_DIST = Path(__file__).parent.parent / 'frontend' / 'dist'
+if _DIST.exists():
+    app.mount('/', StaticFiles(directory=str(_DIST), html=True), name='static')

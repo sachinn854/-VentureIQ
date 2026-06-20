@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: ventureiq
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false          # set manually in Render dashboard
+      - key: TAVILY_API_KEY
+        sync: false          # set manually in Render dashboard
+      - key: MODEL_NAME
+        value: meta-llama/llama-3.3-70b-instruct
+      - key: ALLOWED_ORIGIN
+        value: https://ventureiq.onrender.com
+      - key: DEBUG
+        value: false
+      - key: PYTHONPATH
+        value: /app
